@@ -268,7 +268,7 @@ pub struct Niri {
     /// startup, libinput will immediately send a closed event.
     pub is_lid_closed: bool,
 
-    pub devices: HashSet<input::Device>,
+    pub devices: HashMap<input::Device>,
     pub tablets: HashMap<input::Device, TabletData>,
     pub touch: HashSet<input::Device>,
 
@@ -1664,7 +1664,7 @@ impl State {
 
         if libinput_config_changed {
             let config = self.niri.config.borrow();
-            for mut device in self.niri.devices.iter().cloned() {
+            for mut device in self.niri.devices.keys().cloned() {
                 apply_libinput_settings(&config.input, &mut device);
             }
         }
@@ -2538,7 +2538,7 @@ impl Niri {
             monitors_active: true,
             is_lid_closed: false,
 
-            devices: HashSet::new(),
+            devices: HashMap::new(),
             tablets: HashMap::new(),
             touch: HashSet::new(),
 
