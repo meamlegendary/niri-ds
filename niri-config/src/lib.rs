@@ -1124,25 +1124,30 @@ mod tests {
                     left_handed: true,
                     middle_emulation: true,
                 },
-                tablet: Tablet {
-                    off: false,
-                    calibration_matrix: Some(
-                        [
-                            1.0,
-                            2.0,
-                            3.0,
-                            4.0,
-                            5.0,
-                            6.0,
-                        ],
-                    ),
-                    map_to_output: Some(
-                        "eDP-1",
-                    ),
-                    map_to_focused_output: true,
-                    map_to_focused_window: true,
-                    left_handed: false,
-                },
+                tablets: Tablets(
+                    [
+                        Tablet {
+                            name: None,
+                            off: false,
+                            calibration_matrix: Some(
+                                [
+                                    1.0,
+                                    2.0,
+                                    3.0,
+                                    4.0,
+                                    5.0,
+                                    6.0,
+                                ],
+                            ),
+                            map_to_output: Some(
+                                "eDP-1",
+                            ),
+                            map_to_focused_output: true,
+                            map_to_focused_window: true,
+                            left_handed: false,
+                        },
+                    ],
+                ),
                 touch_screens: TouchScreens {
                     [
                         Touch {

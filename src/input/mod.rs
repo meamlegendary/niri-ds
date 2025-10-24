@@ -320,14 +320,18 @@ impl State {
     where
         I::Device: 'static,
     {
-        let device_output = event.device().output(self);
+        let device = event.device();
+        let device_output = device.output(self);
         let device_output = device_output.filter(|output| self.niri.output_exists(output));
         let device_output = device_output.as_ref();
-        let mapped_output = device_output.or_else(|| self.niri.output_for_tablet());
-
+        let data = (&device as &dyn Any)
+            .downcast_ref::<input::Device>()
+            .and_then(|device| self.niri.devices.get(device));
+        let mapped_output =
+            device_output.or_else(|| self.niri.output_for_tablet(data.map(|d| d.name.as_ref())));
         // If the tablet is configured to map to the focused window, use that window's geometry on
         // the mapped output (or on the focused output if no specific output is mapped).
-        let map_to_focused_window = self.niri.config.borrow().input.tablet.map_to_focused_window;
+        let map_to_focused_window = self.niri.config.borrow().input.tablets.find(data.map(|d| d.name.as_ref())).map_to_focused_window;
         // But only if the keyboard focus is on the layout, so that it doesn't trigger on the lock
         // screen and such.
         let window_target = if map_to_focused_window && self.niri.keyboard_focus.is_layout() {
@@ -5153,7 +5157,7 @@ pub fn apply_libinput_settings(config: &niri_config::Input, device: &mut input::
 
     let is_tablet = device.has_capability(input::DeviceCapability::TabletTool);
     if is_tablet {
-        let c = &config.tablet;
+        let c = &config.tablets.find(Some(device.name()));
         let _ = device.config_send_events_set_mode(if c.off {
             input::SendEventsMode::DISABLED
         } else {
