@@ -1143,12 +1143,17 @@ mod tests {
                     map_to_focused_window: true,
                     left_handed: false,
                 },
-                touch: Touch {
-                    off: false,
-                    calibration_matrix: None,
-                    map_to_output: Some(
-                        "eDP-1",
-                    ),
+                touch_screens: TouchScreens {
+                    [
+                        Touch {
+                            name: None,
+                            off: false,
+                            calibration_matrix: None,
+                            map_to_output: Some(
+                                "eDP-1"
+                            ),
+                        },
+                    ],
                 },
                 disable_power_key_handling: true,
                 warp_mouse_to_focus: Some(
