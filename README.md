@@ -14,6 +14,15 @@ Both changes are currently being worked toward upstream inclusion. This fork com
 
 The goal of niri-ds is not to create a long-term alternative to Niri. It is simply a convenient way to test and use these changes on **dual touchscreen devices** before they are available in upstream Niri.
 
+## Example
+```kdl
+input {
+    // AYN Thor displays
+    touch "top_touchscreen" { map-to-output "DSI-2"; }
+    touch "bottom_touchscreen" { map-to-output "DSI-1"; }
+}
+```
+
 ## Upstream
 
 niri-ds is based on [niri-wm/niri](https://github.com/niri-wm/niri), the upstream Niri project.
